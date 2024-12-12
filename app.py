@@ -38,7 +38,7 @@ def download_file(url):
     return BytesIO(response.content)
 
 # Streamlit app
-st.title("Sentiment Analysis App")
+st.title("Sentiment Analysis")
 
 # Creator information
 st.write("Creator: Amanatullah Pandu Zenklinov")
