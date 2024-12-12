@@ -58,72 +58,74 @@ if uploaded_file:
     # Select column for sentiment analysis
     text_column = st.selectbox("Select the column for sentiment analysis:", df.columns)
 
-    if text_column:
-        # Preprocess text
-        st.subheader("Preprocessing")
-        df['cleaned_text'] = df[text_column].apply(clean_text)
-        st.write("Preview of preprocessed data:")
-        st.dataframe(df[[text_column, 'cleaned_text']].head())
+    # Preprocessing button
+    if st.button("Preprocess Text"):
+        if text_column:
+            # Preprocess text
+            st.subheader("Preprocessing")
+            df['cleaned_text'] = df[text_column].apply(clean_text)
+            st.write("Preview of preprocessed data:")
+            st.dataframe(df[[text_column, 'cleaned_text']].head())
 
-        # Word Cloud
-        st.subheader("Word Cloud")
-        all_text = ' '.join(df['cleaned_text'])
-        wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_text)
-        plt.figure(figsize=(10, 5))
-        plt.imshow(wordcloud, interpolation='bilinear')
-        plt.axis('off')
-        plt.title("Word Cloud")
-        st.pyplot(plt)
+            # Word Cloud
+            st.subheader("Word Cloud")
+            all_text = ' '.join(df['cleaned_text'])
+            wordcloud = WordCloud(width=800, height=400, background_color='white').generate(all_text)
+            plt.figure(figsize=(10, 5))
+            plt.imshow(wordcloud, interpolation='bilinear')
+            plt.axis('off')
+            plt.title("Word Cloud")
+            st.pyplot(plt)
 
-        # Top word frequency
-        st.subheader("Top Word Frequency")
-        all_words = all_text.split()
-        word_counts = Counter(all_words)
-        word_freq_df = pd.DataFrame(word_counts.items(), columns=['Word', 'Frequency']).sort_values(by='Frequency', ascending=False)
-        top_words = word_freq_df.head(20)
-        st.write(top_words)
+            # Top word frequency
+            st.subheader("Top Word Frequency")
+            all_words = all_text.split()
+            word_counts = Counter(all_words)
+            word_freq_df = pd.DataFrame(word_counts.items(), columns=['Word', 'Frequency']).sort_values(by='Frequency', ascending=False)
+            top_words = word_freq_df.head(20)
+            st.write(top_words)
 
-        norm = Normalize(vmin=min(top_words['Frequency']), vmax=max(top_words['Frequency']))
-        colors = [viridis_r(norm(value)) for value in top_words['Frequency']]
-        plt.figure(figsize=(10, 6))
-        plt.bar(top_words['Word'], top_words['Frequency'], color=colors)
-        plt.xlabel('Words')
-        plt.ylabel('Frequency')
-        plt.title('Top 20 Most Frequent Words')
-        plt.xticks(rotation=45)
-        st.pyplot(plt)
+            norm = Normalize(vmin=min(top_words['Frequency']), vmax=max(top_words['Frequency']))
+            colors = [viridis_r(norm(value)) for value in top_words['Frequency']]
+            plt.figure(figsize=(10, 6))
+            plt.bar(top_words['Word'], top_words['Frequency'], color=colors)
+            plt.xlabel('Words')
+            plt.ylabel('Frequency')
+            plt.title('Top 20 Most Frequent Words')
+            plt.xticks(rotation=45)
+            st.pyplot(plt)
 
-        # URLs for TF-IDF and Logistic Regression Model on GitHub
-        url_tfidf = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/tfidf_vectorizer.joblib"
-        url_lr_model = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/logistic_regression_model.joblib"
+            # URLs for TF-IDF and Logistic Regression Model on GitHub
+            url_tfidf = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/tfidf_vectorizer.joblib"
+            url_lr_model = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/logistic_regression_model.joblib"
 
-        # Download the files
-        tfidf_file = download_file(url_tfidf)
-        lr_model_file = download_file(url_lr_model)
+            # Download the files
+            tfidf_file = download_file(url_tfidf)
+            lr_model_file = download_file(url_lr_model)
 
-        # Load TF-IDF and model
-        tfidf = load(tfidf_file)
-        lr = load(lr_model_file)
+            # Load TF-IDF and model
+            tfidf = load(tfidf_file)
+            lr = load(lr_model_file)
 
-        # Predict sentiment
-        st.subheader("Sentiment Prediction")
-        all_data_tfidf = tfidf.transform(df['cleaned_text'])
-        df['predicted_sentiment'] = lr.predict(all_data_tfidf)
-        st.write("Sentiment Prediction Results:")
-        st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
+            # Predict sentiment
+            st.subheader("Sentiment Prediction")
+            all_data_tfidf = tfidf.transform(df['cleaned_text'])
+            df['predicted_sentiment'] = lr.predict(all_data_tfidf)
+            st.write("Sentiment Prediction Results:")
+            st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
 
-        # Sentiment visualization
-        sentiment_counts = df['predicted_sentiment'].value_counts()
-        negative_count = sentiment_counts.get(0, 0)
-        positive_count = sentiment_counts.get(1, 0)
+            # Sentiment visualization
+            sentiment_counts = df['predicted_sentiment'].value_counts()
+            negative_count = sentiment_counts.get(0, 0)
+            positive_count = sentiment_counts.get(1, 0)
 
-        labels = [f'Negative (0): {negative_count}', f'Positive (1): {positive_count}']
-        sizes = [negative_count, positive_count]
-        plt.figure(figsize=(8, 8))
-        plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=['red', 'green'])
-        plt.title('Sentiment Distribution')
-        plt.axis('equal')
-        st.pyplot(plt)
+            labels = [f'Negative (0): {negative_count}', f'Positive (1): {positive_count}']
+            sizes = [negative_count, positive_count]
+            plt.figure(figsize=(8, 8))
+            plt.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=140, colors=['red', 'green'])
+            plt.title('Sentiment Distribution')
+            plt.axis('equal')
+            st.pyplot(plt)
 
-        st.write(f"Negative Sentiment: {negative_count}")
-        st.write(f"Positive Sentiment: {positive_count}")
+            st.write(f"Negative Sentiment: {negative_count}")
+            st.write(f"Positive Sentiment: {positive_count}")
