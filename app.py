@@ -59,8 +59,8 @@ if uploaded_file:
     else:
         df = pd.read_excel(uploaded_file)
 
-    st.subheader("Data Preview")
-    st.dataframe(df.head())
+    st.subheader("Data")
+    st.dataframe(df)
 
     # Select column for sentiment analysis
     text_column = st.selectbox("Select the column for sentiment analysis:", df.columns)
@@ -71,8 +71,8 @@ if uploaded_file:
             # Preprocess text
             st.subheader("Preprocessing")
             df['cleaned_text'] = df[text_column].apply(clean_text)
-            st.write("Preview of preprocessed data:")
-            st.dataframe(df[[text_column, 'cleaned_text']].head())
+            st.write("Preprocessed data:")
+            st.dataframe(df[[text_column, 'cleaned_text']])
 
             # Word Cloud
             st.subheader("Word Cloud")
