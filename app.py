@@ -19,23 +19,6 @@ from io import BytesIO
 nltk.download('punkt')
 nltk.download('stopwords')
 
-# Function to load joblib file from a URL
-def load_model_from_url(url):
-    response = requests.get(url)
-    if response.status_code == 200:
-        model = load(BytesIO(response.content))
-        return model
-    else:
-        raise Exception(f"Failed to load model from {url}")
-
-# Load models from GitHub URLs
-tfidf_url = "https://raw.githubusercontent.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/main/tfidf_vectorizer.joblib"
-lr_url = "https://raw.githubusercontent.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/main/logistic_regression_model.joblib"
-
-# Load the models
-tfidf = load_model_from_url(tfidf_url)
-lr = load_model_from_url(lr_url)
-
 # Define tokenizer function using Porter Stemmer
 def tokenizer_porter(text):
     porter = PorterStemmer()
@@ -49,6 +32,24 @@ def clean_text(text):
     stop_words = set(stopwords.words('english'))
     cleaned_text = ' '.join(word for word in words if word not in stop_words)
     return cleaned_text
+
+# Function to download a file from GitHub
+def download_file(url):
+    response = requests.get(url)
+    response.raise_for_status()  # If it fails, raise an error
+    return BytesIO(response.content)
+
+# URLs to the model and TF-IDF vectorizer on GitHub
+url_tfidf = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/tfidf_vectorizer.joblib"
+url_lr_model = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/logistic_regression_model.joblib"
+
+# Download the files
+tfidf_file = download_file(url_tfidf)
+lr_model_file = download_file(url_lr_model)
+
+# Load the TF-IDF vectorizer and Logistic Regression model
+tfidf = load(tfidf_file)
+lr = load(lr_model_file)
 
 # Streamlit app
 st.title("Sentiment Analysis App")
@@ -106,7 +107,11 @@ if uploaded_file:
 
         # Sentiment Prediction
         st.subheader("Sentiment Prediction")
+        
+        # Transform text data using TF-IDF
         all_data_tfidf = tfidf.transform(df['cleaned_text'])
+        
+        # Predict sentiment using Logistic Regression model
         df['predicted_sentiment'] = lr.predict(all_data_tfidf)
         st.write("Sentiment Prediction Results:")
         st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
