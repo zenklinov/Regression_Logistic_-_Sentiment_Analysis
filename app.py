@@ -9,11 +9,11 @@ import matplotlib.pyplot as plt
 from collections import Counter
 from sklearn.feature_extraction.text import TfidfVectorizer
 from joblib import load
+from io import BytesIO
+import requests
 from matplotlib.cm import viridis_r
 from matplotlib.colors import Normalize
 from nltk.stem import PorterStemmer
-import requests
-from io import BytesIO
 
 # NLTK resources download
 nltk.download('punkt')
@@ -33,23 +33,11 @@ def clean_text(text):
     cleaned_text = ' '.join(word for word in words if word not in stop_words)
     return cleaned_text
 
-# Function to download a file from GitHub
+# Function to download file from GitHub
 def download_file(url):
     response = requests.get(url)
-    response.raise_for_status()  # If it fails, raise an error
+    response.raise_for_status()  # Raise error if request fails
     return BytesIO(response.content)
-
-# URLs to the model and TF-IDF vectorizer on GitHub
-url_tfidf = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/tfidf_vectorizer.joblib"
-url_lr_model = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/logistic_regression_model.joblib"
-
-# Download the files
-tfidf_file = download_file(url_tfidf)
-lr_model_file = download_file(url_lr_model)
-
-# Load the TF-IDF vectorizer and Logistic Regression model
-tfidf = load(tfidf_file)
-lr = load(lr_model_file)
 
 # Streamlit app
 st.title("Sentiment Analysis App")
@@ -105,13 +93,21 @@ if uploaded_file:
         plt.xticks(rotation=45)
         st.pyplot(plt)
 
-        # Sentiment Prediction
+        # URLs for TF-IDF and Logistic Regression Model on GitHub
+        url_tfidf = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/tfidf_vectorizer.joblib"
+        url_lr_model = "https://github.com/zenklinov/Regression_Logistic_-_Sentiment_Analysis_Movie_Data/raw/main/logistic_regression_model.joblib"
+
+        # Download the files
+        tfidf_file = download_file(url_tfidf)
+        lr_model_file = download_file(url_lr_model)
+
+        # Load TF-IDF and model
+        tfidf = load(tfidf_file)
+        lr = load(lr_model_file)
+
+        # Predict sentiment
         st.subheader("Sentiment Prediction")
-        
-        # Transform text data using TF-IDF
         all_data_tfidf = tfidf.transform(df['cleaned_text'])
-        
-        # Predict sentiment using Logistic Regression model
         df['predicted_sentiment'] = lr.predict(all_data_tfidf)
         st.write("Sentiment Prediction Results:")
         st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
