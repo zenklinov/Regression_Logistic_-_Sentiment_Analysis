@@ -41,6 +41,14 @@ def download_file(url):
 # Streamlit app
 st.title("Sentiment Analysis App")
 
+# Creator information
+st.write("Creator: Amanatullah Pandu Zenklinov")
+st.markdown("""
+[LinkedIn](https://www.linkedin.com/in/zenklinov/) | 
+[GitHub](https://github.com/zenklinov/) | 
+[Instagram](https://instagram.com/zenklinov)
+""")
+
 # File upload
 uploaded_file = st.file_uploader("Upload an Excel or CSV file", type=["csv", "xlsx"])
 
