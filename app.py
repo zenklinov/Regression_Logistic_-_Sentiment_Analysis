@@ -141,3 +141,7 @@ if uploaded_file:
 
             st.write(f"Negative Sentiment: {negative_count}")
             st.write(f"Positive Sentiment: {positive_count}")
+
+            # Display sentiment data in a dataframe
+            st.subheader("Sentiment Data")
+            st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
