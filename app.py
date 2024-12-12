@@ -66,7 +66,7 @@ if uploaded_file:
     text_column = st.selectbox("Select the column for sentiment analysis:", df.columns)
 
     # Preprocessing button
-    if st.button("Preprocess Text"):
+    if st.button("Preprocess Text, Wordcloud, and Sentiment Prediction"):
         if text_column:
             # Preprocess text
             st.subheader("Preprocessing")
