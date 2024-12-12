@@ -50,7 +50,7 @@ st.markdown("""
 """)
 
 # File upload
-uploaded_file = st.file_uploader("Upload an Excel or CSV file", type=["csv", "xlsx"])
+uploaded_file = st.file_uploader("Upload an Excel or CSV file (Support English Only)", type=["csv", "xlsx"])
 
 if uploaded_file:
     # Load data
