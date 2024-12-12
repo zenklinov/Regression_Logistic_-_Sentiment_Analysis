@@ -17,6 +17,7 @@ from nltk.stem import PorterStemmer
 
 # NLTK resources download
 nltk.download('punkt')
+nltk.download('punkt_tab')
 nltk.download('stopwords')
 
 # Define tokenizer function using Porter Stemmer
