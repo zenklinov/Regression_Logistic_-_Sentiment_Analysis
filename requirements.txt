@@ -6,3 +6,4 @@ matplotlib
 wordcloud
 joblib
 requests
+plotly
