@@ -144,4 +144,4 @@ if uploaded_file:
 
             # Display sentiment data in a dataframe
             st.subheader("Sentiment Data")
-            st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
+            st.dataframe(df[['text', 'predicted_sentiment']])
