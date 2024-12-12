@@ -1,7 +1,7 @@
 streamlit
 pandas
 nltk
-sklearn
+scikit-learn
 matplotlib
 wordcloud
 joblib
