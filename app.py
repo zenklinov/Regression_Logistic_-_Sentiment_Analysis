@@ -1,9 +1,9 @@
 import streamlit as st
 import pandas as pd
 import re
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
-import nltk
 from wordcloud import WordCloud
 import matplotlib.pyplot as plt
 from collections import Counter
