@@ -89,7 +89,7 @@ if uploaded_file:
         all_data_tfidf = tfidf.transform(df['cleaned_text'])
         df['predicted_sentiment'] = lr.predict(all_data_tfidf)
         st.write("Sentiment Prediction Results:")
-        st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
+        st.dataframe(df)
 
     if upload_models:
         # Upload TF-IDF Vectorizer and Logistic Regression model files
@@ -107,7 +107,7 @@ if uploaded_file:
             all_data_tfidf = tfidf.transform(df['cleaned_text'])
             df['predicted_sentiment'] = lr.predict(all_data_tfidf)
             st.write("Sentiment Prediction Results:")
-            st.dataframe(df[['cleaned_text', 'predicted_sentiment']])
+            st.dataframe(df)
 
     # If models have been selected or uploaded, display wordcloud and sentiment distribution
     if use_github_models or upload_models:
