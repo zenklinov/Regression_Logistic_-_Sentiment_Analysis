@@ -4,6 +4,7 @@ This project demonstrates sentiment analysis on movie review data using Logistic
 
 ## Project Structure
 
+- `classify_sentiment.ipynb`: Jupyter Notebook of Input Data, Preprocessing, until Visualizing Sentiment Analysis using Logistic Regression.
 - `app.py`: Main Streamlit application for running the sentiment analysis interface.
 - `logistic_regression_model.joblib`: Pre-trained Logistic Regression model.
 - `tfidf_vectorizer.joblib`: TF-IDF vectorizer for text preprocessing.
@@ -48,14 +49,6 @@ The movie was fantastic with stellar performances by the cast.
 ```
 
 The application will output the sentiment of the review (e.g., Positive or Negative).
-
-## Screenshots
-
-![App Screenshot](screenshot.png)
-
-## License
-
-This project is licensed under the MIT License.
 
 ## Try it on Streamlit:
 
