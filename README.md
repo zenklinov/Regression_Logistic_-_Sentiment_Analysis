@@ -1,6 +1,6 @@
 # Sentiment Analysis with Logistic Regression
 
-This project demonstrates sentiment analysis on movie review data using Logistic Regression. The model predicts whether a review expresses positive or negative sentiment based on the text provided.
+This project demonstrates sentiment analysis, model based on movie review data using Logistic Regression. The model predicts whether a review expresses positive or negative sentiment based on the text provided. The application on #PepGuardiola from Twitter (X).
 
 ## Project Structure
 
