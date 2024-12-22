@@ -40,16 +40,6 @@ Run the Streamlit application with the following command:
 streamlit run app.py
 ```
 
-## Input Example
-
-Provide a movie review, such as:
-
-```
-The movie was fantastic with stellar performances by the cast.
-```
-
-The application will output the sentiment of the review (e.g., Positive or Negative).
-
 ## Try it on Streamlit:
 
 https://regressionlogistic-sentimentanalysis-lgbxfzczme5clpzfct9qmg.streamlit.app/
